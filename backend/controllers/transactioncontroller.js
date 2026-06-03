@@ -54,6 +54,53 @@ const getSummary = async (req, res) => {
     });
   }
 };
+const deleteTransaction = async (req, res) => {
+  try {
+    const transaction = await Transaction.findByIdAndDelete(
+      req.params.id
+    );
+
+    if (!transaction) {
+      return res.status(404).json({
+        message: "Transaction not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Transaction deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+const updateTransaction = async (req, res) => {
+  try {
+    const transaction =
+      await Transaction.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+      );
+
+    if (!transaction) {
+      return res.status(404).json({
+        message: "Transaction not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      transaction,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 module.exports = {
-  addTransaction,getTransactions,getSummary,
+  addTransaction,getTransactions,getSummary,deleteTransaction,updateTransaction,
 };
