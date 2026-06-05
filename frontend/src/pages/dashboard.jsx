@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import "./Dashboard.css";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+} from "recharts";
 function Dashboard() {
   const [summary, setSummary] = useState(null);
 
@@ -10,6 +17,7 @@ function Dashboard() {
     amount: "",
     description: "",
   });
+  const [filter, setFilter] = useState("all");
 
   const [transactions, setTransactions] = useState([]);
 
@@ -155,20 +163,32 @@ function Dashboard() {
       </button>
 
       {summary && (
-        <>
-          <h3>
-            Total Income: ₹{summary.totalIncome}
-          </h3>
+  <PieChart width={400} height={300}>
+    <Pie
+      data={[
+        {
+          name: "Income",
+          value: summary.totalIncome,
+        },
+        {
+          name: "Expense",
+          value: summary.totalExpense,
+        },
+      ]}
+      dataKey="value"
+      cx="50%"
+      cy="50%"
+      outerRadius={100}
+      label
+    >
+      <Cell fill="#22c55e" />
+      <Cell fill="#ef4444" />
+    </Pie>
 
-          <h3>
-            Total Expense: ₹{summary.totalExpense}
-          </h3>
-
-          <h3>
-            Balance: ₹{summary.balance}
-          </h3>
-        </>
-      )}
+    <Tooltip />
+    <Legend />
+  </PieChart>
+)}
 
       <hr />
 
@@ -233,38 +253,54 @@ function Dashboard() {
       <hr />
 
       <h2>Transactions</h2>
+      <button onClick={() => setFilter("all")}>
+  All
+</button>
 
-      {transactions.map((item) => (
-        <div
-          key={item._id}
-          className="transaction"
-        >
-          <h4>{item.category}</h4>
+<button onClick={() => setFilter("income")}>
+  Income
+</button>
 
-          <p>
-            ₹{item.amount} ({item.type})
-          </p>
+<button onClick={() => setFilter("expense")}>
+  Expense
+</button>
 
-          <button
-            onClick={() =>
-              updateTransaction(
-                item._id,
-                prompt("Enter new amount")
-              )
-            }
-          >
-            Edit
-          </button>
+      {transactions
+  .filter((item) => {
+    if (filter === "all") return true;
+    return item.type === filter;
+  })
+  .map((item) => (
+    <div
+      key={item._id}
+      className="transaction"
+    >
+      <h4>{item.category}</h4>
 
-          <button
-            onClick={() =>
-              deleteTransaction(item._id)
-            }
-          >
-            Delete
-          </button>
-        </div>
-      ))}
+      <p>
+        ₹{item.amount} ({item.type})
+      </p>
+
+      <button
+        onClick={() =>
+          updateTransaction(
+            item._id,
+            prompt("Enter new amount")
+          )
+        }
+      >
+        Edit
+      </button>
+
+      <button
+        onClick={() =>
+          deleteTransaction(item._id)
+        }
+      >
+        Delete
+      </button>
+    </div>
+))}
     </div>
   );
 }
