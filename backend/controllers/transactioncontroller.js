@@ -2,7 +2,10 @@ const Transaction = require("../models/Transaction");
 
 const addTransaction = async (req, res) => {
   try {
-    const transaction = await Transaction.create(req.body);
+    const transaction = await Transaction.create({
+  ...req.body,
+  user: req.user.id,
+});
 
     res.status(201).json({
       success: true,
@@ -16,7 +19,9 @@ const addTransaction = async (req, res) => {
 };
 const getTransactions = async (req, res) => {
   try {
-    const transactions = await Transaction.find();
+    const transactions = await Transaction.find({
+    user: req.user.id,
+  });
 
     res.json({
       success: true,
@@ -30,7 +35,9 @@ const getTransactions = async (req, res) => {
 };
 const getSummary = async (req, res) => {
   try {
-    const transactions = await Transaction.find();
+    const transactions = await Transaction.find({
+  user: req.user.id,
+});
 
     const totalIncome = transactions
       .filter((t) => t.type === "income")
