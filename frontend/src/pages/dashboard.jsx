@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
-
+import "./Dashboard.css";
 function Dashboard() {
   const [summary, setSummary] = useState(null);
 
@@ -10,6 +10,7 @@ function Dashboard() {
     amount: "",
     description: "",
   });
+
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
@@ -35,24 +36,25 @@ function Dashboard() {
       console.log(error);
     }
   };
+
   const fetchTransactions = async () => {
-  try {
-    const token = localStorage.getItem("token");
+    try {
+      const token = localStorage.getItem("token");
 
-    const res = await API.get(
-      "/transactions",
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+      const res = await API.get(
+        "/transactions",
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
 
-    setTransactions(res.data.transactions);
-  } catch (error) {
-    console.log(error);
-  }
-};
+      setTransactions(res.data.transactions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -60,29 +62,6 @@ function Dashboard() {
       [e.target.name]: e.target.value,
     });
   };
-  const logout = () => {
-  localStorage.removeItem("token");
-  window.location.href = "/";
-};
-  const deleteTransaction = async (id) => {
-  try {
-    const token = localStorage.getItem("token");
-
-    await API.delete(
-      `/transactions/${id}`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-
-    fetchSummary();
-    fetchTransactions();
-  } catch (error) {
-    console.log(error);
-  }
-};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,12 +95,65 @@ function Dashboard() {
     }
   };
 
+  const deleteTransaction = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await API.delete(
+        `/transactions/${id}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      fetchSummary();
+      fetchTransactions();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateTransaction = async (
+    id,
+    amount
+  ) => {
+    if (!amount) return;
+
+    try {
+      const token = localStorage.getItem("token");
+
+      await API.put(
+        `/transactions/${id}`,
+        { amount },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      fetchSummary();
+      fetchTransactions();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };
+
   return (
-    <div>
+    <div className="container">
       <h1>Dashboard</h1>
-<button onClick={logout}>
-  Logout
-</button>
+
+      <button onClick={logout}>
+        Logout
+      </button>
+
       {summary && (
         <>
           <h3>
@@ -137,7 +169,6 @@ function Dashboard() {
           </h3>
         </>
       )}
-      
 
       <hr />
 
@@ -158,7 +189,8 @@ function Dashboard() {
           </option>
         </select>
 
-        <br /><br />
+        <br />
+        <br />
 
         <input
           type="text"
@@ -168,7 +200,8 @@ function Dashboard() {
           onChange={handleChange}
         />
 
-        <br /><br />
+        <br />
+        <br />
 
         <input
           type="number"
@@ -178,7 +211,8 @@ function Dashboard() {
           onChange={handleChange}
         />
 
-        <br /><br />
+        <br />
+        <br />
 
         <input
           type="text"
@@ -188,37 +222,49 @@ function Dashboard() {
           onChange={handleChange}
         />
 
-        <br /><br />
+        <br />
+        <br />
 
         <button type="submit">
           Add Transaction
         </button>
       </form>
+
       <hr />
 
-<h2>Transactions</h2>
+      <h2>Transactions</h2>
 
-{transactions.map((item) => (
-  <div key={item._id}>
-    <p>
-      {item.category} - ₹{item.amount}
-      ({item.type})
-    </p>
-  </div>
-))}
-{transactions.map((item) => (
-  <div key={item._id}>
-    <p>
-      {item.category} - ₹{item.amount} ({item.type})
+      {transactions.map((item) => (
+        <div
+          key={item._id}
+          className="transaction"
+        >
+          <h4>{item.category}</h4>
 
-      <button
-        onClick={() => deleteTransaction(item._id)}
-      >
-        Delete
-      </button>
-    </p>
-  </div>
-))}
+          <p>
+            ₹{item.amount} ({item.type})
+          </p>
+
+          <button
+            onClick={() =>
+              updateTransaction(
+                item._id,
+                prompt("Enter new amount")
+              )
+            }
+          >
+            Edit
+          </button>
+
+          <button
+            onClick={() =>
+              deleteTransaction(item._id)
+            }
+          >
+            Delete
+          </button>
+        </div>
+      ))}
     </div>
   );
 }
