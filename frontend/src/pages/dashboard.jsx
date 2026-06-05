@@ -18,6 +18,7 @@ function Dashboard() {
     description: "",
   });
   const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
   const [transactions, setTransactions] = useState([]);
 
@@ -249,6 +250,14 @@ function Dashboard() {
           Add Transaction
         </button>
       </form>
+      <input
+  type="text"
+  placeholder="Search Category"
+  value={search}
+  onChange={(e) =>
+    setSearch(e.target.value)
+  }
+/>
 
       <hr />
 
@@ -266,10 +275,11 @@ function Dashboard() {
 </button>
 
       {transactions
-  .filter((item) => {
-    if (filter === "all") return true;
-    return item.type === filter;
-  })
+  .filter((item) =>
+    item.category
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  )
   .map((item) => (
     <div
       key={item._id}
