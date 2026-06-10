@@ -1,13 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
-
+import "./register.css";
+import "./login.css";
 function Register() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
-
+const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -16,23 +18,30 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await API.post(
-        "/auth/register",
-        formData
-      );
+  try {
+    await API.post(
+      "/auth/register",
+      formData
+    );
 
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    navigate("/register-success");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
-    <div>
-      <h1>Register</h1>
+  <div className="register-container">
+    <div className="login-card">
+      <h1 className="login-title">
+        ⚡ STARK FINANCE ⚡
+      </h1>
+
+      <p className="login-subtitle">
+        Initialize New User Access
+      </p>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -63,11 +72,22 @@ function Register() {
         <br /><br />
 
         <button type="submit">
-          Register
+          CREATE ACCOUNT
         </button>
       </form>
+
+      <p>
+        Already Registered?{" "}
+        <span
+          className="register-link"
+          onClick={() => navigate("/")}
+        >
+          Login
+        </span>
+      </p>
     </div>
-  );
+  </div>
+);
 }
 
 export default Register;

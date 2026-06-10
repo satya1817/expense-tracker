@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
+import backgroundVideo from "../assets/tony2.mp4";
 import {
   PieChart,
   Pie,
@@ -19,12 +21,19 @@ function Dashboard() {
   });
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
-
+const navigate = useNavigate();
   const [transactions, setTransactions] = useState([]);
-
+const [time, setTime] = useState(
+  new Date()
+);
   useEffect(() => {
     fetchSummary();
     fetchTransactions();
+    const timer = setInterval(() => {
+    setTime(new Date());
+  }, 1000);
+
+  return () => clearInterval(timer);
   }, []);
 
   const fetchSummary = async () => {
@@ -151,44 +160,92 @@ function Dashboard() {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/";
-  };
-
+  localStorage.removeItem("token");
+  navigate("/outro");
+};
   return (
     <div className="container">
-      <h1>Dashboard</h1>
+      <video
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="background-video"
+>
+  <source
+    src={backgroundVideo}
+    type="video/mp4"
+  />
+</video>
+      <h1 className="stark-title">
+  ⚡ STARK FINANCE ⚡
+</h1>
 
-      <button onClick={logout}>
-        Logout
-      </button>
+<div className="jarvis-panel">
+  <p>🟢 JARVIS ONLINE</p>
+
+  <p>🔒 USER AUTHENTICATED</p>
+
+  <p>⚡ ARC REACTOR: STABLE</p>
+
+  <p>
+    🕒 {time.toLocaleTimeString()}
+  </p>
+
+  <button
+    className="logout-btn"
+    onClick={logout}
+  >
+    Logout
+  </button>
+</div>
 
       {summary && (
-  <PieChart width={400} height={300}>
-    <Pie
-      data={[
-        {
-          name: "Income",
-          value: summary.totalIncome,
-        },
-        {
-          name: "Expense",
-          value: summary.totalExpense,
-        },
-      ]}
-      dataKey="value"
-      cx="50%"
-      cy="50%"
-      outerRadius={100}
-      label
-    >
-      <Cell fill="#22c55e" />
-      <Cell fill="#ef4444" />
-    </Pie>
+  <div className="chart-container">
+    <PieChart width={400} height={300}>
+      <Pie
+        data={[
+          {
+            name: "Income",
+            value: summary.totalIncome,
+          },
+          {
+            name: "Expense",
+            value: summary.totalExpense,
+          },
+        ]}
+        dataKey="value"
+        cx="50%"
+        cy="50%"
+        outerRadius={100}
+        label
+      >
+        <Cell fill="#22c55e" />
+        <Cell fill="#ef4444" />
+      </Pie>
 
-    <Tooltip />
-    <Legend />
-  </PieChart>
+      <Tooltip />
+      <Legend />
+    </PieChart>
+  </div>
+)}
+{summary && (
+  <div className="summary">
+    <div className="card">
+      <h3>💰 Income</h3>
+      <h2>₹{summary.totalIncome}</h2>
+    </div>
+
+    <div className="card">
+      <h3>💸 Expense</h3>
+      <h2>₹{summary.totalExpense}</h2>
+    </div>
+
+    <div className="card">
+      <h3>⚡ Balance</h3>
+      <h2>₹{summary.balance}</h2>
+    </div>
+  </div>
 )}
 
       <hr />
@@ -280,6 +337,10 @@ function Dashboard() {
       .toLowerCase()
       .includes(search.toLowerCase())
   )
+  .filter((item) => {
+    if (filter === "all") return true;
+    return item.type === filter;
+  })
   .map((item) => (
     <div
       key={item._id}

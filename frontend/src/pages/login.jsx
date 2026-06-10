@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
-
+import "./Login.css";
 function Login() {
   const [formData, setFormData] = useState({
     email: "",
@@ -27,21 +27,26 @@ function Login() {
       );
 
       localStorage.setItem(
-        "token",
-        res.data.token
-      );
+  "token",
+  res.data.token
+);
 
-      alert("Login Successful");
-
-      navigate("/dashboard");
+navigate("/intro");
     } catch (error) {
       alert(error.response.data.message);
     }
   };
 
-  return (
-    <div>
-      <h1>Login</h1>
+ return (
+  <div className="login-container">
+    <div className="login-card">
+      <h1 className="login-title">
+        ⚡ STARK FINANCE ⚡
+      </h1>
+
+      <p className="login-subtitle">
+        JARVIS Authentication Portal
+      </p>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -63,11 +68,24 @@ function Login() {
         <br /><br />
 
         <button type="submit">
-          Login
+          ACCESS SYSTEM
         </button>
       </form>
+
+      <p>
+        New User?{" "}
+        <span
+          className="register-link"
+          onClick={() =>
+            navigate("/register")
+          }
+        >
+          Create Account
+        </span>
+      </p>
     </div>
-  );
+  </div>
+);
 }
 
 export default Login;
