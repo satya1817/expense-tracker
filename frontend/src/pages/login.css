@@ -39,7 +39,6 @@
 .login-title {
   text-align: center;
 
-  font-size: clamp(3rem, 8vw, 5rem);
 
   line-height: 1;
 
@@ -51,6 +50,7 @@
     0 0 10px #00d4ff,
     0 0 20px #00d4ff,
     0 0 40px #00d4ff;
+
 }
 
 .login-subtitle {

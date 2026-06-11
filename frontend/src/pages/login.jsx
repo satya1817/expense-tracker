@@ -41,7 +41,7 @@ navigate("/intro");
   <div className="login-container">
     <div className="login-card">
       <h1 className="login-title">
-        ⚡ STARK FINANCE ⚡
+        STARK FINANCE
       </h1>
 
       <p className="login-subtitle">

@@ -36,7 +36,7 @@ const navigate = useNavigate();
   <div className="register-container">
     <div className="login-card">
       <h1 className="login-title">
-        ⚡ STARK FINANCE ⚡
+        STARK FINANCE
       </h1>
 
       <p className="login-subtitle">
