@@ -1,5 +1,5 @@
 .login-container {
-  height: 100vh;
+  min-height: 100vh;
 
   display: flex;
   justify-content: center;
@@ -17,7 +17,8 @@
 }
 
 .login-card {
-  width: 400px;
+  width: 90%;
+  max-width: 450px;
 
   padding: 30px;
 
@@ -36,6 +37,7 @@
 }
 
 .login-title {
+  font-size: clamp(2rem,5vw,4rem);
   color: #00d4ff;
 
   text-shadow:

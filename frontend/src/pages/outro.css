@@ -9,6 +9,13 @@
 
   overflow: hidden;
 }
+.outro-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1;
+}
 
 .outro-video {
   position: absolute;
@@ -20,4 +27,36 @@
   height: 100%;
 
   object-fit: cover;
+}
+.outro-text {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  color: white;
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-align: center;
+
+  z-index: 10;
+
+  text-shadow: 0 0 20px rgba(255,255,255,0.8);
+}
+
+.outro-subtext {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  color: #00e5ff;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  text-align: center;
+
+  z-index: 10;
+
+  text-shadow: 0 0 15px rgba(0,229,255,0.8);
 }
