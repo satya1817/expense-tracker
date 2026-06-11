@@ -37,12 +37,20 @@
 }
 
 .login-title {
-  font-size: clamp(2rem,5vw,4rem);
+  text-align: center;
+
+  font-size: clamp(3rem, 8vw, 5rem);
+
+  line-height: 1;
+
+  font-weight: 900;
+
   color: #00d4ff;
 
   text-shadow:
     0 0 10px #00d4ff,
-    0 0 20px #00d4ff;
+    0 0 20px #00d4ff,
+    0 0 40px #00d4ff;
 }
 
 .login-subtitle {
