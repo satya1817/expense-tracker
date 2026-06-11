@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Intro from "./pages/Intro";
-import Outro from "./pages/Outro";
-import RegisterSuccess from "./pages/RegisterSuccess";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import Dashboard from "./pages/dashboard";
+import ProtectedRoute from "./components/protectedroute";
+import Intro from "./pages/intro";
+import Outro from "./pages/outro";
+import RegisterSuccess from "./pages/registersuccess";
 function App() {
   return (
     <BrowserRouter>

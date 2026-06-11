@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import outroVideo from "../assets/tony3.mp4";
-import "./Outro.css";
+import "./outro.css";
 function Outro() {
   const navigate = useNavigate();
 

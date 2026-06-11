@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import registerVideo from "../assets/tony6.mp4";
-import "./Outro.css";
+import "./outro.css";
 function RegisterSuccess() {
   const navigate = useNavigate();
 

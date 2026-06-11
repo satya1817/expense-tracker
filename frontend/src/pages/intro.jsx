@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import introVideo from "../assets/tony4.mp4";
-import "./Intro.css";
+import "./intro.css";
 
 function Intro() {
   const navigate = useNavigate();

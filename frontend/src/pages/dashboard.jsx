@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
-import "./Dashboard.css";
+import "./dashboard.css";
 import { useNavigate } from "react-router-dom";
 import backgroundVideo from "../assets/tony2.mp4";
 import {
