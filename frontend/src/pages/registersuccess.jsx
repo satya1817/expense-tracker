@@ -18,7 +18,7 @@ function RegisterSuccess() {
           type="video/mp4"
         />
       </video>
-
+<div className="outro-content">
       <h1 className="outro-text">
         WELCOME TO
         STARK INDUSTRIES
@@ -27,6 +27,7 @@ function RegisterSuccess() {
       <h2 className="outro-subtext">
         User Access Initialized...
       </h2>
+      </div>
     </div>
   );
 }

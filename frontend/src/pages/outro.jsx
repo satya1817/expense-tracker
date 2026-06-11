@@ -20,13 +20,12 @@ function Outro() {
     />
   </video>
 
-  <h1 className="outro-text">
-    SESSION TERMINATED
-  </h1>
-
-  <h2 className="outro-subtext">
-    Powering Down STARK FINANCE...
-  </h2>
+  <div className="outro-content">
+    <h1 className="outro-text">SESSION TERMINATED</h1>
+    <h2 className="outro-subtext">
+      Powering Down STARK FINANCE...
+    </h2>
+  </div>
 </div>
   );
 }
